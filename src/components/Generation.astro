@@ -1,0 +1,30 @@
+---
+import { Image } from '@astrojs/image/components';
+
+const imageUrl =
+    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
+---
+
+<article
+    class='h-screen bg-green-300 flex flex-col md:flex-row-reverse justify-around p-10 items-center'
+>
+    <section
+        class='font-Montserrat w-full text-center md:w-auto flex flex-col items-center'
+    >
+        <h2 class='text-6xl'>First Generation</h2>
+        <p class='text-3xl w-fit p-5 m-5 bg-black bg-opacity-20 rounded-xl'>
+            157 Pokemons
+        </p>
+    </section>
+    <section>
+        <Image
+            src={imageUrl}
+            width={400}
+            height={400}
+            format='webp'
+            alt='descriptive text'
+        />
+        <div class='bg-black bg-opacity-10 p-5 mx-5 rounded-[100%] blur-sm'>
+        </div>
+    </section>
+</article>

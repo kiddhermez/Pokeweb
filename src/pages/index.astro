@@ -1,38 +1,13 @@
 ---
+import Generation from '../components/Generation.astro';
 import Layout from '../layouts/Layout.astro';
-import { Image } from '@astrojs/image/components';
-
-const imageUrl =
-	'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
 ---
 
-<Layout title='Home' Class='h-screen w-screen overflow-clip'>
+<Layout title='Home' Class=''>
 	<!-- <header class='w-screen text-center text-3xl bg-slate-400 p-5'>
 		<h1>PokeWeb</h1>
 	</header> -->
-	<main class='w-screen h-full'>
-		<article
-			class='w-screen h-full flex justify-around items-center bg-green-400'
-		>
-			<section>
-				<Image
-					src={imageUrl}
-					width={400}
-					height={400}
-					format='webp'
-					alt='descriptive text'
-				/>
-				<div
-					class='bg-black bg-opacity-10 p-5 mx-5 rounded-[100%] blur-sm'
-				>
-				</div>
-			</section>
-			<section class='font-Montserrat'>
-				<h2 class='text-6xl'>First Generation</h2>
-				<div class='bg-black bg-opacity-20 p-5 m-5 rounded-xl'>
-					<p class='text-3xl'>157 Pokemons</p>
-				</div>
-			</section>
-		</article>
+	<main class=''>
+		{[...Array(9)].map(() => <Generation />)}
 	</main>
 </Layout>
