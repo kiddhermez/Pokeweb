@@ -3,11 +3,13 @@ import Generation from '../components/Generation.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title='Home' Class=''>
+<Layout title='Home' Class='overflow-hidden'>
 	<!-- <header class='w-screen text-center text-3xl bg-slate-400 p-5'>
 		<h1>PokeWeb</h1>
 	</header> -->
-	<main class=''>
+	<main
+		class='overflow-y-scroll snap-y snap-mandatory h-screen w-screen scrollbar-none'
+	>
 		{[...Array(9)].map(() => <Generation />)}
 	</main>
 </Layout>
