@@ -9,9 +9,11 @@ interface Props {
 }
 
 const { generationNumber } = Astro.props;
-const { color, sprites, numPokemons } = await usePokemonInfo({
+const { color, sprites, numPokemons, name } = await usePokemonInfo({
     generationNumber,
 });
+
+const sprite = sprites.other?.['official-artwork']?.front_default;
 
 const position = () => {
     if (generationNumber % 2 === 0) {
@@ -38,13 +40,13 @@ const position = () => {
     </section>
     <section>
         <Image
-            src={sprites.other?.['official-artwork']?.front_default || ''}
+            src={sprite || '../assets/MissingNO.webp'}
             width={400}
             height={400}
             format='webp'
-            alt='descriptive text'
-            ,
+            alt={name || 'Pokemon sprite'}
             loading='eager'
+            decoding='async'
         />
         <div class='bg-black bg-opacity-10 p-5 mx-5 rounded-[100%] blur-sm'>
         </div>

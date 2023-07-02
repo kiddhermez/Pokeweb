@@ -23,7 +23,7 @@ export default async function usePokemonInfo({ generationNumber }: Props) {
     const specieInfo = await getSpecieInfo<Specie>(
         pokemon_species[randomNum].url
     );
-    const { color, varieties } = specieInfo || {
+    const { color, varieties, name } = specieInfo || {
         color: { name: 'white' },
         varieties: [{ pokemon: { url: '' } }],
     };
@@ -40,5 +40,5 @@ export default async function usePokemonInfo({ generationNumber }: Props) {
         },
     };
 
-    return { color, sprites, numPokemons: pokemon_species.length };
+    return { color, sprites, numPokemons: pokemon_species.length, name };
 }

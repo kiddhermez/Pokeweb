@@ -8,7 +8,7 @@ import getGenerations from '@api/getInfo';
 
 const { count } = (await getGenerations<Generations>(
 	'https://pokeapi.co/api/v2/generation'
-)) || { count: 1 };
+)) || { count: 0 };
 ---
 
 <Layout title='Home' Class='overflow-hidden'>
@@ -16,9 +16,15 @@ const { count } = (await getGenerations<Generations>(
 		class='overflow-y-scroll snap-y snap-mandatory h-screen w-screen scrollbar-none'
 	>
 		{
-			[...Array(count)].map((_, i) => (
-				<Generation generationNumber={i + 1} />
-			))
+			!(count === 0) ? (
+				[...Array(count)].map((_, i) => (
+					<Generation generationNumber={i + 1} />
+				))
+			) : (
+				<div class='font-Montserrat bg-black text-white text-6xl h-screen w-screen grid content-center text-center'>
+					No pokemons found
+				</div>
+			)
 		}
 	</main>
 </Layout>
