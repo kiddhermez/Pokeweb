@@ -1,15 +1,27 @@
 ---
-import Generation from '../components/Generation.astro';
-import Layout from '../layouts/Layout.astro';
+import Generation from '@components/Generation.astro';
+import Layout from '@layouts/Layout.astro';
+
+// Api
+import type { Generations } from '@api/interfaces/Generations';
+import getGenerations from '@api/getInfo';
+
+//
+const { count } = (await getGenerations<Generations>(
+	'https://pokeapi.co/api/v2/generation'
+)) || { count: 1 };
+
+console.log(count);
 ---
 
 <Layout title='Home' Class='overflow-hidden'>
-	<!-- <header class='w-screen text-center text-3xl bg-slate-400 p-5'>
-		<h1>PokeWeb</h1>
-	</header> -->
 	<main
 		class='overflow-y-scroll snap-y snap-mandatory h-screen w-screen scrollbar-none'
 	>
-		{[...Array(9)].map(() => <Generation />)}
+		{
+			[...Array(count)].map((_, i) => (
+				<Generation generationNumber={i + 1} />
+			))
+		}
 	</main>
 </Layout>

@@ -1,6 +1,14 @@
 {
     "extends": "astro/tsconfigs/strict",
     "compilerOptions": {
-        "types": ["@astrojs/image/client"]
+        "types": ["@astrojs/image/client", "jest"],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"],
+            "@components/*": ["src/components/*"],
+            "@layouts/*": ["src/layouts/*"],
+            "@api/*": ["src/api/*"],
+            "@pages/*": ["src/pages/*"]
+        }
     }
 }

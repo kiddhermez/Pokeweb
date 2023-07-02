@@ -1,28 +1,43 @@
 ---
 import { Image } from '@astrojs/image/components';
+import ordinals from '@/api/assets/ordinals';
+import colors from '@/api/assets/colors';
+import usePokemonInfo from '@/api/hooks/usePokemonInfo';
 
-const imageUrl =
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
+interface Props {
+    generationNumber: number;
+}
+
+const { generationNumber } = Astro.props;
+const { color, sprites, numPokemons } = await usePokemonInfo({
+    generationNumber,
+});
 ---
 
 <article
-    class='h-screen bg-green-300 flex flex-col md:flex-row-reverse justify-around p-10 items-center snap-always snap-start'
+    class={`h-screen flex flex-col md:flex-row-reverse justify-around p-10 items-center snap-always snap-start ${
+        colors[color.name]
+    }`}
 >
     <section
         class='font-Montserrat w-full text-center md:w-auto flex flex-col items-center'
     >
-        <h2 class='text-6xl'>First Generation</h2>
+        <h2 class='text-6xl capitalize'>
+            {ordinals[generationNumber - 1]} Generation
+        </h2>
         <p class='text-3xl w-fit p-5 m-5 bg-black bg-opacity-20 rounded-xl'>
-            157 Pokemons
+            {numPokemons} Pokemons
         </p>
     </section>
     <section>
         <Image
-            src={imageUrl}
+            src={sprites.other?.['official-artwork']?.front_default || ''}
             width={400}
             height={400}
             format='webp'
             alt='descriptive text'
+            ,
+            loading='eager'
         />
         <div class='bg-black bg-opacity-10 p-5 mx-5 rounded-[100%] blur-sm'>
         </div>
