@@ -6,12 +6,9 @@ import Layout from '@layouts/Layout.astro';
 import type { Generations } from '@api/interfaces/Generations';
 import getGenerations from '@api/getInfo';
 
-//
 const { count } = (await getGenerations<Generations>(
 	'https://pokeapi.co/api/v2/generation'
 )) || { count: 1 };
-
-console.log(count);
 ---
 
 <Layout title='Home' Class='overflow-hidden'>

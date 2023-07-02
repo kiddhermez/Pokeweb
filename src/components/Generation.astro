@@ -12,17 +12,24 @@ const { generationNumber } = Astro.props;
 const { color, sprites, numPokemons } = await usePokemonInfo({
     generationNumber,
 });
+
+const position = () => {
+    if (generationNumber % 2 === 0) {
+        return 'md:flex-row-reverse';
+    } else {
+        return 'md:flex-row';
+    }
+};
 ---
 
 <article
-    class={`h-screen flex flex-col md:flex-row-reverse justify-around p-10 items-center snap-always snap-start ${
-        colors[color.name]
-    }`}
+    class={`h-screen flex flex-col justify-around p-10 items-center snap-always snap-start
+    ${colors[color.name]} ${position()}`}
 >
     <section
         class='font-Montserrat w-full text-center md:w-auto flex flex-col items-center'
     >
-        <h2 class='text-6xl capitalize'>
+        <h2 class='text-6xl capitalize font-bold'>
             {ordinals[generationNumber - 1]} Generation
         </h2>
         <p class='text-3xl w-fit p-5 m-5 bg-black bg-opacity-20 rounded-xl'>
