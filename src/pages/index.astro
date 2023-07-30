@@ -6,25 +6,27 @@ import Layout from '@layouts/Layout.astro';
 import type { Generations } from '@api/interfaces/Generations';
 import getGenerations from '@api/getInfo';
 
-const { count } = (await getGenerations<Generations>(
-	'https://pokeapi.co/api/v2/generation'
-)) || { count: 0 };
+const { pokemon_v2_generation : data } = (await getGenerations<Generations>(
+    '{pokemon_v2_generation{id}}'
+)) || { pokemon_v2_generation: [] };
+
+const count = data.length;
 ---
 
 <Layout title='Home' Class='overflow-hidden'>
-	<main
-		class='overflow-y-scroll snap-y snap-mandatory h-screen w-screen scrollbar-none'
-	>
-		{
-			!(count === 0) ? (
-				[...Array(count)].map((_, i) => (
-					<Generation generationNumber={i + 1} />
-				))
-			) : (
-				<div class='font-Montserrat bg-black text-white text-6xl h-screen w-screen grid content-center text-center'>
-					No pokemons found
-				</div>
-			)
-		}
-	</main>
+    <main
+        class='overflow-y-scroll snap-y snap-mandatory h-screen w-screen scrollbar-none'
+    >
+        {
+            !(count === 0) ? (
+                [...Array(count)].map((_, i) => (
+                    <Generation generationNumber={i + 1} />
+                ))
+            ) : (
+                <div class='font-Montserrat bg-black text-white text-6xl h-screen w-screen grid content-center text-center'>
+                    No pokemons found
+                </div>
+            )
+        }
+    </main>
 </Layout>

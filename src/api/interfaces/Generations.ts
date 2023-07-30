@@ -1,11 +1,7 @@
 export interface Generations {
-    count: number;
-    next: null;
-    previous: null;
-    results: Result[];
+    pokemon_v2_generation: PokemonV2Generation[];
 }
 
-export interface Result {
-    name: string;
-    url: string;
+export interface PokemonV2Generation {
+    id: number;
 }

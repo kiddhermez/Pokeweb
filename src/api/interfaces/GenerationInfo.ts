@@ -1,21 +1,34 @@
 export interface GenerationInfo {
-    abilities: any[];
-    id: number;
-    main_region: MainRegion;
-    moves: MainRegion[];
-    name: string;
-    names: Name[];
-    pokemon_species: MainRegion[];
-    types: MainRegion[];
-    version_groups: MainRegion[];
+    pokemon_v2_pokemonspecies: PokemonV2Pokemonspecy[];
 }
 
-export interface MainRegion {
-    name: string;
-    url: string;
+export interface PokemonV2Pokemonspecy {
+    pokemon_v2_pokemoncolor: PokemonV2Pokemoncolor;
+    pokemon_v2_pokemons: PokemonV2Pokemon[];
 }
 
-export interface Name {
-    language: MainRegion;
+export interface PokemonV2Pokemoncolor {
+    name: Name;
+}
+
+export enum Name {
+    Black = 'black',
+    Blue = 'blue',
+    Brown = 'brown',
+    Gray = 'gray',
+    Green = 'green',
+    Pink = 'pink',
+    Purple = 'purple',
+    Red = 'red',
+    White = 'white',
+    Yellow = 'yellow',
+}
+
+export interface PokemonV2Pokemon {
     name: string;
+    pokemon_v2_pokemonsprites: PokemonV2Pokemonsprite[];
+}
+
+export interface PokemonV2Pokemonsprite {
+    sprites: string;
 }

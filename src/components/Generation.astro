@@ -13,7 +13,8 @@ const { color, sprites, numPokemons, name } = await usePokemonInfo({
     generationNumber,
 });
 
-const sprite = sprites.other?.['official-artwork']?.front_default;
+const sprite = sprites.other['official-artwork'].front_default?.slice(6);
+const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master${sprite}`;
 
 const position = () => {
     if (generationNumber % 2 === 0) {
@@ -26,7 +27,7 @@ const position = () => {
 
 <article
     class={`h-screen flex flex-col justify-around p-10 items-center snap-always snap-start
-    ${colors[color.name]} ${position()}`}
+    ${colors[color]} ${position()}`}
 >
     <section
         class='font-Montserrat w-full text-center md:w-auto flex flex-col items-center'
@@ -40,7 +41,7 @@ const position = () => {
     </section>
     <section>
         <Image
-            src={sprite || '../assets/MissingNO.webp'}
+            src={spriteUrl || '../assets/MissingNO.webp'}
             width={400}
             height={400}
             format='webp'

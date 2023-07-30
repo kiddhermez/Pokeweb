@@ -1,44 +1,43 @@
 import getGenerationInfo from '@/api/getInfo';
-import getSpecieInfo from '@/api/getInfo';
-import getPokemonInfo from '@/api/getInfo';
 
 import type { GenerationInfo } from '@/api/interfaces/GenerationInfo';
-import type { Specie } from '@/api/interfaces/Specie';
-import type { Pokemon } from '@/api/interfaces/Pokemon';
+import type { Sprites } from '../interfaces/Sprites';
 
 interface Props {
     generationNumber: number;
 }
 
+const query = (generationId: number) => `{
+    pokemon_v2_pokemonspecies(where: {generation_id: {_eq: ${generationId}}}) {
+      pokemon_v2_pokemons {
+        pokemon_v2_pokemonsprites {
+          sprites
+        }
+        name
+      }
+      pokemon_v2_pokemoncolor {
+        name
+      }
+    }
+  }`;
+
 export default async function usePokemonInfo({ generationNumber }: Props) {
-    const generationInfo = await getGenerationInfo<GenerationInfo>(
-        `https://pokeapi.co/api/v2/generation/${generationNumber}/`
-    );
-    const { pokemon_species } = generationInfo || {
-        pokemon_species: [{ url: '' }],
-    };
+    const { pokemon_v2_pokemonspecies: species } =
+        await getGenerationInfo<GenerationInfo>(query(generationNumber));
 
-    const randomNum = Math.floor(Math.random() * pokemon_species.length);
-
-    const specieInfo = await getSpecieInfo<Specie>(
-        pokemon_species[randomNum].url
-    );
-    const { color, varieties, name } = specieInfo || {
-        color: { name: 'white' },
-        varieties: [{ pokemon: { url: '' } }],
-    };
-
-    const pokemonInfo = await getPokemonInfo<Pokemon>(
-        varieties[0].pokemon?.url
+    const randomNumber = Math.floor(Math.random() * species.length);
+    const {
+        pokemon_v2_pokemons: PokemonInfo,
+        pokemon_v2_pokemoncolor: colorInfo,
+    } = species[randomNumber];
+    const sprites: Sprites = JSON.parse(
+        PokemonInfo[0].pokemon_v2_pokemonsprites[0].sprites
     );
 
-    const { sprites } = pokemonInfo || {
-        sprites: {
-            other: {
-                'official-artwork': { front_default: '' },
-            },
-        },
+    return {
+        color: colorInfo.name,
+        sprites,
+        numPokemons: species.length,
+        name: PokemonInfo[0].name,
     };
-
-    return { color, sprites, numPokemons: pokemon_species.length, name };
 }
