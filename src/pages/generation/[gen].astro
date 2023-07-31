@@ -1,0 +1,49 @@
+---
+import ordinals from '@/api/assets/ordinals';
+import getGenerations from '@/api/getInfo';
+import getPokemons from '@/api/getInfo';
+import Layout from '@layouts/Layout.astro';
+import NavBar from '@/components/NavBar.astro';
+import type { Generations } from '@/api/interfaces/Generations';
+import type { PokemonsByGeneration } from '@/api/interfaces/PokemonsByGeneration';
+
+const { pokemon_v2_generation } = await getGenerations<Generations>(
+    '{pokemon_v2_generation{id}}'
+);
+
+const gen = Astro.params.gen || '1';
+const generationCount = pokemon_v2_generation.length;
+const generation = parseInt(gen);
+
+if (!generation) {
+    return Astro.redirect(`/generation/${generationCount}`);
+}
+
+if (generation < 1 || generation > generationCount) {
+    console.log(`Generation ${generation} does not exist`);
+    return Astro.redirect(`/generation/${generationCount}`);
+}
+
+const { pokemon_v2_pokemonspecies: species } =
+    await getPokemons<PokemonsByGeneration>(`{
+  pokemon_v2_pokemonspecies(where: {generation_id: {_eq: ${generation}}}) {
+    name
+    id
+  }
+}`);
+---
+
+<Layout
+    title={`${ordinals[generation - 1]} Generation`}
+    Class='h-screen w-screen scrollbar-none'
+>
+    <NavBar />
+    <main class='w-screen h-[90%] flex'>
+        <aside
+            class='w-1/6 bg-poke-purple flex flex-col items-start overflow-y-scroll'
+        >
+            {species.map(({ name, id }) => <button>{name}</button>)}
+        </aside>
+        <section class='w-5/6 bg-poke-red'>pokemon info</section>
+    </main>
+</Layout>
